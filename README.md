@@ -1,3 +1,3 @@
-first experiances with github and nmp
+first experiences with github and npm
 
-very small module for logging nodejs servers
+very small module for logging node js servers
