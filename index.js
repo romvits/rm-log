@@ -2,40 +2,100 @@ var _ = require('lodash');
 var DateFormat = require('dateformat');
 var Colors = require('colors/safe');
 
+/**
+ * Logging for Servers
+ *
+ * @param {Object} settings - initialize with settings.
+ * @example new Log({'err':ture,'info':false});
+ */
 function rmLog (settings) {
-	this.settings = _.extend({
-		_err: true,
-		_msg: true,
-		_info: true,
-		_debug: true,
-		_datePattern: "dd.mm.yyyy HH:mm:ss"
-	}, settings);
 
-	this.dateFormat = new DateFormat();
+	this.settings(settings);
+	this._colors = [ "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white", "gray", "grey" ];
 
 }
 
+/**
+ * Change settings for logging
+ *
+ * @param {Object} settings - change settings for default settings.
+ * @example log.settings({'err':ture,'info':false});
+ */
+rmLog.prototype.settings = function (settings) {
+
+	this._settings = {
+		'err': true,
+		'msg': true,
+		'info': true,
+		'debug': true,
+		'datePattern': 'dd.mm.yyyy HH:mm:ss'
+	};
+
+	var colors = {
+		'err': 'red',
+		'msg': 'blue',
+		'info': 'magenta',
+		'debug': 'yellow'
+	};
+
+	if (!_.isUndefined(settings)) {
+
+		if (!_.isUndefined(settings)) {
+			_.extend(this._settings, settings);
+		}
+
+		if (!_.isUndefined(settings.colors)) {
+			_.extend(colors, settings.colors);
+		}
+	}
+	this._settings.colors = colors;
+}
+
+/**
+ * Message output
+ *
+ * @param {string} info - information for the message.
+ * @param {string} message - logging message.
+ */
 rmLog.prototype.msg = function (info, message) {
-	if (this.settings._msg) {
-		this._output('MSG:', info, message, 'cyan');
+	if (this._settings.msg) {
+		this._output('MSG', info, message, this._settings.colors.msg);
 	}
 }
 
+/**
+ * Information output
+ *
+ * @param {string} info - information for the message.
+ * @param {string} message - logging message.
+ */
 rmLog.prototype.info = function (info, message) {
-	if (this.settings._info) {
-		this._output('INFO:', info, message, 'blue');
+	if (this._settings.info) {
+		this._output('INF', info, message, this._settings.colors.info);
 	}
 }
 
+/**
+ * Debugging output
+ *
+ * @param {string} info - information for the message.
+ * @param {string} message - logging message.
+ */
 rmLog.prototype.debug = function (info, message) {
-	if (this.settings._debug) {
-		this._output('DEBUG:', info, message, 'green');
+	if (this._settings.debug) {
+		this._output('DEB', info, message, this._settings.colors.debug);
 	}
 }
 
+/**
+ * Error output
+ *
+ * @param {string} info - information for the message.
+ * @param {string} message - logging message.
+ */
 rmLog.prototype.err = function (info, message) {
-	if (this.settings._err) {
-		this._output('ERR:', info, message, 'red');
+	if (this._settings.err) {
+		this._output('ERR', info, message, this._settings.colors.err);
 	}
 }
 
@@ -45,20 +105,18 @@ rmLog.prototype._output = function (type, info, message, color) {
 	}
 	if (_.isUndefined(color)) {
 		color = 'white';
+	} else {
+		if (_.indexOf(this._colors, color) === -1) {
+			color = 'white';
+		}
 	}
+
 	var memoryUsage = process.memoryUsage();
 
 	function pad (num, size) {
 		var s = num + "";
 		while (s.length < size)
 			s = " " + s;
-		return s;
-	}
-
-	function space (string, size) {
-		var s = string + "";
-		while (s.length < size)
-			s = s + " ";
 		return s;
 	}
 
@@ -72,18 +130,17 @@ rmLog.prototype._output = function (type, info, message, color) {
 	}
 
 	var memoryString = pad(formatBytes(memoryUsage.heapUsed, 0), 10);
-	var typeString = space(type, 6);
 	var date = new Date();
-	var dateString = DateFormat(date, this.settings._datePattern);
+	var dateString = DateFormat(date, this._settings.datePattern);
 	var messageString = "";
-	
-	if (typeof(message) == "object") {
+
+	if (typeof (message) == "object") {
 		messageString = JSON.stringify(message);
 	} else {
 		messageString = message;
 	}
 
-	console.log(Colors[color](dateString), Colors['gray'](memoryString), Colors[color](typeString), Colors[color](info), Colors[color](messageString));
+	console.log(Colors[color](dateString), "|", Colors['gray'](memoryString), "|", Colors[color](type), "|", Colors[color](info), "|", Colors[color](messageString));
 }
 
 module.exports = rmLog;
