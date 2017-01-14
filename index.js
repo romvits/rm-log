@@ -75,8 +75,15 @@ rmLog.prototype._output = function (type, info, message, color) {
 	var typeString = space(type, 6);
 	var date = new Date();
 	var dateString = DateFormat(date, this.settings._datePattern);
+	var messageString = "";
+	
+	if (typeof(message) == "object") {
+		messageString = JSON.stringify(message);
+	} else {
+		messageString = message;
+	}
 
-	console.log(Colors[color](dateString), Colors['gray'](memoryString), Colors[color](typeString), Colors[color](info), Colors[color](JSON.stringify(message)));
+	console.log(Colors[color](dateString), Colors['gray'](memoryString), Colors[color](typeString), Colors[color](info), Colors[color](messageString));
 }
 
 module.exports = rmLog;
