@@ -11,7 +11,7 @@ $ npm install rm-log
 
 ## Example simple
 ```js
-var Log = require('./src/index.js');
+var Log = require('rm-log');
 var log = new Log();
 
 log.msg("HTTP-SERVER", "a message for test");
