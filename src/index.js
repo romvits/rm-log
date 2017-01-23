@@ -28,7 +28,7 @@ rmLog.prototype.settings = function (settings) {
 		'msg': true,
 		'info': true,
 		'debug': true,
-		'datePattern': 'dd.mm.yyyy HH:mm:ss'
+		'datePattern': 'dd.MM.yyyy HH:mm:ss'
 	};
 
 	var colors = {
