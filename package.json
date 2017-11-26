@@ -1,6 +1,6 @@
 {
   "name": "rm-log",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Logging with different log-levels and colored messages",
   "main": "index.js",
   "scripts": {
