@@ -35,7 +35,7 @@ var log = new Log({
 	'info': false,
 	'debug': true,
 	'msg': false,
-	'datePattern': 'yyyy/mm/dd HH:mm:ss',
+	'datePattern': 'yyyy/mm/dd HH:MM:ss', // dd.mm.yyyy HH:MM:ss
 	'colors': {
 		'err': 'green', // one of these [ 'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'gray', 'grey' ]
 		'info': 'blue', // one of these [ 'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'gray', 'grey' ]

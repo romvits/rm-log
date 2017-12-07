@@ -1,7 +1,7 @@
 /*! 
  rm-log
  copyright by Roman Marlovits
- 2017-11-26
+ 2017-12-07
 */
 
 function rmLog(a){this.settings(a),this._colors=["black","red","green","yellow","blue","magenta","cyan","white","gray","grey"]}var _=require("lodash"),DateFormat=require("dateformat"),Colors=require("colors/safe");rmLog.prototype.settings=function(a){this._settings={err:!0,msg:!0,info:!0,debug:!0,datePattern:"dd.mm.yyyy HH:MM:ss"};var b={err:"red",msg:"blue",info:"magenta",debug:"yellow"};_.isUndefined(a)||(_.isUndefined(a)||_.extend(this._settings,a),_.isUndefined(a.colors)||_.extend(b,a.colors)),this._settings.colors=b},rmLog.prototype.msg=function(a,b){this._settings.msg&&this._output("MSG",a,b,this._settings.colors.msg)},rmLog.prototype.info=function(a,b){this._settings.info&&this._output("INF",a,b,this._settings.colors.info)},rmLog.prototype.debug=function(a,b){this._settings.debug&&this._output("DEB",a,b,this._settings.colors.debug)},rmLog.prototype.err=function(a,b){this._settings.err&&this._output("ERR",a,b,this._settings.colors.err)},rmLog.prototype._output=function(a,b,c,d){_.isUndefined(c)&&(c=""),_.isUndefined(d)?d="white":-1===_.indexOf(this._colors,d)&&(d="white");var e=process.memoryUsage(),f=function(a,b){for(var c=a+"";c.length<b;)c=" "+c;return c}(function(a,b){if(0==a)return"0 Byte";var c=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],d=Math.floor(Math.log(a)/Math.log(1e3));return parseFloat((a/Math.pow(1e3,d)).toFixed(1))+" "+c[d]}(e.heapUsed,0),10),g=new Date,h=DateFormat(g,this._settings.datePattern),i="";i="object"==typeof c?JSON.stringify(c):c,console.log(Colors[d](h),"|",Colors.gray(f),"|",Colors[d](a),"|",Colors[d](b),"|",Colors[d](i))},module.exports=rmLog;
