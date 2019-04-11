@@ -77,8 +77,9 @@ log.err('3 DB-SERVER', 'a error for test');
 log.debug('3 WS-SERVER', 'a debugging for test');
 log.info('3 generate PDF', 'a infostring for test');
 
-console.log('Example: 4 - some Settings changed');
+console.log('Example: 4 - some Settings changed, output for logfile => colors are ignored');
 log.settings({
+    'logfile': true,
 	'err': false,
 	'info': false,
 	'debug': false,

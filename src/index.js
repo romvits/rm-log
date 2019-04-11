@@ -24,6 +24,7 @@ function rmLog (settings) {
 rmLog.prototype.settings = function (settings) {
 
 	this._settings = {
+		'logfile': false,
 		'err': true,
 		'msg': true,
 		'info': true,
@@ -140,7 +141,11 @@ rmLog.prototype._output = function (type, info, message, color) {
 		messageString = message;
 	}
 
-	console.log(Colors[color](dateString), "|", Colors['gray'](memoryString), "|", Colors[color](type), "|", Colors[color](info), "|", Colors[color](messageString));
+	if (this._settings.logfile) {
+		console.log(dateString, "|", memoryString, "|", type, "|", info, "|", messageString);
+	} else {
+		console.log(Colors[color](dateString), "|", Colors['gray'](memoryString), "|", Colors[color](type), "|", Colors[color](info), "|", Colors[color](messageString));
+	}
 }
 
 module.exports = rmLog;
